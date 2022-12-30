@@ -1,0 +1,68 @@
+function apartmentHunting(blocks, reqs) {
+    // Write your code here.
+    let maxDistances = blocks.map(() => 0);
+    for (let i = 0; i < blocks.length; i++) {
+        reqs.forEach((req) => {
+            let closestDistance = blocks.length - 1;
+            blocks.forEach((block, j) => {
+                if (block[req]) {
+                    closestDistance = Math.min(closestDistance, Math.abs(i - j));
+                }
+            });
+            maxDistances[i] = Math.max(maxDistances[i], closestDistance);
+        });
+    }
+    const minDistance = 1;
+    const minDistanceCollection = [];
+    maxDistances.forEach((distance, index) => {
+        if (distance === minDistance) {
+            minDistanceCollection.push(index);
+        }
+    });
+
+    let blocksString = "";
+    for (let i = 0; i < minDistanceCollection.length; i++) {
+        if (i == minDistanceCollection.length - 1 && minDistanceCollection.length > 1) {
+            blocksString = blocksString + ` and ${minDistanceCollection[i]}`;
+            console.log('more than one block');
+        } else {
+            blocksString = blocksString + `${minDistanceCollection[i]} `;
+            console.log('only one block')
+        }
+    }
+
+    console.log(`at index ${blocksString}`);
+}
+
+
+let blocks = [
+    {
+        "gym": false,
+        "school": true,
+        "store": false,
+    },
+    {
+        "gym": true,
+        "school": false,
+        "store": false,
+    },
+    {
+        "gym": true,
+        "school": true,
+        "store": false,
+    },
+    {
+        "gym": false,
+        "school": true,
+        "store": false,
+    },
+    {
+        "gym": false,
+        "school": true,
+        "store": true,
+    }
+]
+reqs = ["gym", "school", "store"]
+apartmentHunting(blocks, reqs);
+// Do not edit the line below.
+exports.apartmentHunting = apartmentHunting;
